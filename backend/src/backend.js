@@ -42,18 +42,22 @@ app.get('/', (req, res) => {
   res.send(info);
 });
 
-app.get('/folder', (req, res) => {
+app.get('/get', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   backExplorer.get().then((result) => {
     res.send(JSON.stringify(result));
   });
 });
 
-app.put('/folder/:folder', (req, res) => {
+app.get('/get/folder/:folder', (req, res) => {
   backExplorer.setCurrentPath(req.params.folder);
   backExplorer.get().then((result) => {
     res.send(JSON.stringify(result));
   });
+});
+
+app.get('/get/current-path', (req, res) => {
+  res.send(JSON.stringify(backExplorer.getCurrentPath()));
 });
 
 app.use((req, res) => {
