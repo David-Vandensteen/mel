@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from '../config';
 
 export default class Explorer {
-  init() {
+  init () {
     return axios.get(`${config.backend.route}/get/current-path`)
       .then((response) => {
         this.currentPath = response.data;
@@ -11,6 +11,23 @@ export default class Explorer {
   }
 
   get () {
-    return axios.get(`${config.backend.route}/get`);
+    return axios.get(`${config.backend.route}/get`)
+      .then((response) => {
+        return Promise.resolve(response.data);
+      });
+  }
+
+  static trunk (items, begin, deepth) {
+    const response = [];
+    let count = deepth;
+    let i = 0;
+    items.forEach((item) => {
+      if (i >= begin && count > 0) {
+        response.push(item);
+        count -=1;
+      }
+      i += 1;
+    });
+    return response;
   }
 }
