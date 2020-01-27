@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 
 app.get('/get', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  backExplorer.get().then((result) => {
+  backExplorer.getSorting().then((result) => {
     res.send(JSON.stringify(result));
   });
 });
@@ -52,6 +52,18 @@ app.get('/get', (req, res) => {
 app.get('/get/folder/:folder', (req, res) => {
   backExplorer.setCurrentPath(req.params.folder);
   backExplorer.get().then((result) => {
+    res.send(JSON.stringify(result));
+  });
+});
+
+app.get('/get-folders', (req, res) => {
+  backExplorer.getFolders().then((result) => {
+    res.send(JSON.stringify(result));
+  });
+});
+
+app.get('/get-files', (req, res) => {
+  backExplorer.getFiles().then((result) => {
     res.send(JSON.stringify(result));
   });
 });

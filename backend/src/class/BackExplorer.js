@@ -1,4 +1,4 @@
-// import { log, error } from 'console';
+import { log } from 'console';
 import { promises as fs, lstatSync } from 'fs';
 import path from 'path';
 
@@ -13,6 +13,24 @@ export default class BackExplorer {
 
   getCurrentPath() {
     return this.currentPath;
+  }
+
+  getFolders() {
+    return this.get()
+      .then((items) => Promise.resolve(items.filter((item) => item.directory)));
+  }
+
+  getFiles() {
+    return this.get()
+      .then((items) => Promise.resolve(items.filter((item) => !item.directory)));
+  }
+
+  getSorting() {
+    return Promise.all([
+      this.getFolders(),
+      this.getFiles(),
+    ])
+      .then((result) => result.flat());
   }
 
   get() {
