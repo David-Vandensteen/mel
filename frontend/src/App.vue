@@ -11,7 +11,6 @@
 import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
-import Explorer from './class/Explorer';
 
 export default {
   name: 'App',
@@ -26,15 +25,6 @@ export default {
   },
 
   created () {
-    const explorer = new Explorer();
-    explorer.init()
-      .then((currentPath) => {
-        explorer.get(currentPath)
-          .then((files) => {
-            // eslint-disable-next-line no-console
-            console.log(files);
-          });
-      });
   },
 
   data: () => ({

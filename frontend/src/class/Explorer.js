@@ -12,22 +12,16 @@ export default class Explorer {
 
   get () {
     return axios.get(`${config.backend.route}/get`)
-      .then((response) => {
-        return Promise.resolve(response.data);
-      });
+      .then((response) => response.data);
   }
 
-  static trunk (items, begin, deepth) {
-    const response = [];
-    let count = deepth;
-    let i = 0;
-    items.forEach((item) => {
-      if (i >= begin && count > 0) {
-        response.push(item);
-        count -=1;
-      }
-      i += 1;
-    });
-    return response;
+  static trunk (items, hover, frame) {
+    const begin = (hover - frame + items.length) % items.length;
+    const itemsTrunked = [];
+    if (items.length === 0) return itemsTrunked;
+    for (let i = 0; i < (frame *2) + 1; i +=1 ) {
+      itemsTrunked.push(items[(begin + i) % items.length ]);
+    }
+    return itemsTrunked;
   }
 }

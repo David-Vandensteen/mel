@@ -1,12 +1,16 @@
 <template>
   <v-container>
-    <!--
-    <div v-for="item in items" :key="item.path">
-      <li><label :class="{ 'blue--text': item.directory, 'red--text': !item.directory }"> {{ item.name }} </label></li>
-    </div>
-    -->
-    <div v-for="item in items" :key="item.path">
-      <li><label :class="{ 'blue--text': item.directory, 'red--text': !item.directory }"> {{ item.name }} </label></li>
+    <div v-for="(item, index) in itemsTrunked" :key="item.path">
+      <li>
+        <label
+          :class="{
+            'red--text': index === scope.frame,
+            'blue--text': item.directory && index !== scope.frame
+          }"
+        >
+          {{ item.name }}
+        </label>
+      </li>
     </div>
   </v-container>
 </template>
@@ -21,13 +25,16 @@ export default {
     this.explorer.get()
       .then((response) => {
         this.items = response;
-        this.itemsScoped = Explorer.trunk(items, 0, 5);
       });
+  },
+  computed: {
+    itemsTrunked: function() {
+      return Explorer.trunk(this.items, this.scope.hover, this.scope.frame);
+    },
   },
   data: () => ({
     items: [],
-    itemsScoped: [],
-    cursor: 0,
+    scope: { hover: 0, frame: 4 },
   }),
 };
 </script>
