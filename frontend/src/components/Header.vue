@@ -10,22 +10,12 @@
 </template>
 
 <script>
-import Explorer from '../class/Explorer';
-
 export default {
   name: 'Header',
-
-  created() {
-    this.explorer = new Explorer();
-    this.explorer.init()
-      .then((response) => {
-        this.currentPath = response;
-      });
-  },
-
-  data() {
-    return {
-      currentPath: '',
+  props: {
+    currentPath: {
+      type: String,
+      default: '.',
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-content>
-      <Header/>
+      <Header current-path = "string"/>
       <Main/>
     </v-content>
   </v-app>
@@ -16,9 +16,7 @@ export default {
   name: 'App',
 
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     Main,
-    // eslint-disable-next-line vue/no-unused-components
     Header,
     // eslint-disable-next-line vue/no-unused-components
     Footer,
