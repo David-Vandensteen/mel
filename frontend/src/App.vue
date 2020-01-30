@@ -65,7 +65,8 @@ export default {
       if (this.items.length > 0) {
         if (this.items[this.scope.hover].directory) {
           log('browse :', this.items[this.scope.hover].name);
-          this.explorer.get(`${this.currentPath}\\${this.items[this.scope.hover].name}`)
+          this.currentPath = this.items[this.scope.hover].path;
+          this.explorer.get(`${this.items[this.scope.hover].path}`)
             .then((response) => {
               this.items = response;
             })
@@ -81,9 +82,9 @@ export default {
     },
   },
   data: () => ({
-    currentPath: '.',
+    currentPath: 'c:\\temp\\',
     items: [],
-    scope: { hover: 0, frame: 10 },
+    scope: { hover: 0, frame: 15 },
   }),
 };
 </script>

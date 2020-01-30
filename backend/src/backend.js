@@ -44,32 +44,17 @@ app.get('/', (req, res) => {
 
 app.get('/folder', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  backExplorer.getSorting().then((result) => {
-    res.send(JSON.stringify(result));
+  backExplorer.getSorting().then((items) => {
+    res.send(JSON.stringify(items));
   });
 });
 
-app.post('/folder/:folder', (req, res) => {
-  backExplorer.setCurrentPath(req.params.folder);
-  backExplorer.get().then((result) => {
-    res.send(JSON.stringify(result));
+app.post('/folder', (req, res) => {
+  console.log(req.body);
+  backExplorer.setCurrentPath(req.body.folder);
+  backExplorer.getSorting().then((items) => {
+    res.send(JSON.stringify(items));
   });
-});
-
-app.get('/folders', (req, res) => {
-  backExplorer.getFolders().then((result) => {
-    res.send(JSON.stringify(result));
-  });
-});
-
-app.get('/files', (req, res) => {
-  backExplorer.getFiles().then((result) => {
-    res.send(JSON.stringify(result));
-  });
-});
-
-app.get('/current-path', (req, res) => {
-  res.send(JSON.stringify(backExplorer.getCurrentPath()));
 });
 
 app.use((req, res) => {

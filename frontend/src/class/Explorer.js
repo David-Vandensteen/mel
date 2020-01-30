@@ -2,8 +2,21 @@ import axios from 'axios';
 import config from '../config';
 
 export default class Explorer {
+  /*
   get (path) {
     return axios.get(`${config.backend.route}/folder/${path}`)
+      .then((response) => response.data);
+  }
+  */
+
+  get (path) {
+    return axios.request({
+      method: 'post',
+      url: `${config.backend.route}/folder`,
+      data: {
+        folder: path,
+      },
+    })
       .then((response) => response.data);
   }
 
