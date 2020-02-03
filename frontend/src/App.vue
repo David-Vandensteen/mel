@@ -2,7 +2,7 @@
   <v-app dark>
     <v-content>
       <Header :currentPath = "currentPath" />
-      <Main :items = "items" :itemsTrunked = "itemsTrunked" :scope = "scope"/>
+      <Main :items="items" :itemsTrunked="itemsTrunked" :scope="scope"/>
       <Footer/>
     </v-content>
   </v-app>
@@ -13,6 +13,7 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
 import Explorer from './class/Explorer';
+const path = path;
 const { log } = console;
 
 export default {
@@ -29,6 +30,7 @@ export default {
     this.explorer.get(this.currentPath)
       .then((response) => {
         this.items = response;
+        if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
       });
       window.addEventListener('keydown', this.keydown);
   },
@@ -36,6 +38,13 @@ export default {
     window.removeEventListener('keydown', this.keydown);
   },
   methods: {
+    itemsRefresh: function(path) {
+      this.currentPath = path;
+      this.explorer.get(this.currentPath)
+        .then((response) => {
+          this.items = response;
+        });
+    },
     keydown: function(event) {
       switch (event.key) {
         case 'ArrowUp':
@@ -48,6 +57,10 @@ export default {
 
         case 'Enter':
           this.enter();
+          break;
+
+        case 'Escape':
+          this.escape();
           break;
 
         default:
@@ -65,16 +78,18 @@ export default {
       if (this.items.length > 0) {
         if (this.items[this.scope.hover].directory) {
           log('browse :', this.items[this.scope.hover].name);
-          this.currentPath = this.items[this.scope.hover].path;
-          this.explorer.get(`${this.items[this.scope.hover].path}`)
-            .then((response) => {
-              this.items = response;
-            })
+          this.itemsRefresh(this.items[this.scope.hover].path);
         } else {
           log('launch :', this.items[this.scope.hover].name);
         }
       }
     },
+    escape: function() {
+      log('escape');
+      const currentPathSplit = this.currentPath.split('\\');
+      const newPath = currentPathSplit.slice(0, currentPathSplit.length - 1).join('\\');
+      this.itemsRefresh(newPath);
+    }
   },
   computed: {
     itemsTrunked: function() {
@@ -82,7 +97,7 @@ export default {
     },
   },
   data: () => ({
-    currentPath: 'c:\\temp\\',
+    currentPath: 'C:\\temp',
     items: [],
     scope: { hover: 0, frame: 15 },
   }),

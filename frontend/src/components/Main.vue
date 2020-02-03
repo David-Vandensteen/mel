@@ -4,9 +4,9 @@
       <li>
         <label
           :class="{
-            'red--text': index === scope.frame,
+            'green--text': index === scope.frame,
             'selection': index === scope.frame,
-            'blue--text': item.directory && index !== scope.frame
+            'blue--text': item.directory || false && index !== scope.frame
           }"
         >
           {{ item.name }}
