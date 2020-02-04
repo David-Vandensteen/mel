@@ -2,7 +2,13 @@
   <v-app dark>
     <v-content>
       <Header :currentPath = "currentPath" />
-      <Main :items="items" :itemsTrunked="itemsTrunked" :scope="scope"/>
+      <Main
+        :items="items"
+        :itemsTrunked="itemsTrunked"
+        :scope="scope"
+        :selectEmulatorDialog="selectEmulatorDialog"
+        :getEmulators="getEmulators"
+      />
       <Footer/>
     </v-content>
   </v-app>
@@ -68,19 +74,20 @@ export default {
       }
     },
     up: function() {
-      this.scope.hover = (this.scope.hover + this.items.length - 1) % this.items.length;
+      if (!this.selectEmulatorDialog) this.scope.hover = (this.scope.hover + this.items.length - 1) % this.items.length;
     },
     down: function() {
-      this.scope.hover = (this.scope.hover + 1) % this.items.length;
+      if (!this.selectEmulatorDialog) this.scope.hover = (this.scope.hover + 1) % this.items.length;
     },
     enter: function() {
       log('enter');
-      if (this.items.length > 0) {
+      if (this.items.length > 0 && !this.selectEmulatorDialog) {
         if (this.items[this.scope.hover].directory) {
           log('browse :', this.items[this.scope.hover].name);
           this.itemsRefresh(this.items[this.scope.hover].path);
         } else {
           log('launch :', this.items[this.scope.hover].name);
+          this.selectEmulatorDialog = true;
         }
       }
     },
@@ -97,9 +104,11 @@ export default {
     },
   },
   data: () => ({
-    currentPath: 'C:\\temp',
+    currentPath: 'C:\\temp\\test',
     items: [],
     scope: { hover: 0, frame: 15 },
+    selectEmulatorDialog: false,
+    getEmulators: Function,
   }),
 };
 </script>
