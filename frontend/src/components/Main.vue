@@ -13,29 +13,16 @@
         </label>
       </li>
     </div>
-    <v-row justify="center">
-      <v-dialog v-model="selectEmulatorDialog" scrollable max-width="300px">
-        <v-card>
-          <v-card-title>Select Emulator</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text style="height: 300px;">
-            <v-radio-group v-model="getEmulators" column>
-              <v-radio label="Snes 9x" value="snes9x"></v-radio>
-              <v-radio label="PCSX" value="pcsx"></v-radio>
-              <v-radio label="PCSX2" value="pcsx2"></v-radio>
-            </v-radio-group>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="selectEmuatorDialog = false">Save</v-btn>
-            <!--
-            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
-            -->
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+    <div class="text-center">
+      <v-bottom-sheet v-model="selectEmulatorDialog" persistent>
+        <v-sheet class="text-center" height="300px">
+          <div class="py-3">Select Emulator</div>
+            <div v-for="(emulator, index) in getEmulators" :key="index">
+              {{ emulator }}
+            </div>
+        </v-sheet>
+      </v-bottom-sheet>
+    </div>
   </v-container>
 </template>
 <style scoped>
@@ -54,7 +41,13 @@ export default {
     itemsTrunked: Array,
     scope: Object,
     selectEmulatorDialog: Boolean,
-    getEmulators: Function,
+    getEmulators: Array,
+  },
+
+  created () {
+  },
+
+  methods: {
   },
 };
 </script>

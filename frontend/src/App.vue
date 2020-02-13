@@ -72,12 +72,13 @@ export default {
         default:
           break;
       }
+      (!this.items[this.scope.hover].directory) ? this.selectEmulatorDialog = true : this.selectEmulatorDialog = false;
     },
     up: function() {
-      if (!this.selectEmulatorDialog) this.scope.hover = (this.scope.hover + this.items.length - 1) % this.items.length;
+      this.scope.hover = (this.scope.hover + this.items.length - 1) % this.items.length;
     },
     down: function() {
-      if (!this.selectEmulatorDialog) this.scope.hover = (this.scope.hover + 1) % this.items.length;
+      this.scope.hover = (this.scope.hover + 1) % this.items.length;
     },
     enter: function() {
       log('enter');
@@ -93,14 +94,21 @@ export default {
     },
     escape: function() {
       log('escape');
-      const currentPathSplit = this.currentPath.split('\\');
-      const newPath = currentPathSplit.slice(0, currentPathSplit.length - 1).join('\\');
-      this.itemsRefresh(newPath);
+      if (!this.selectEmulatorDialog) {
+        const currentPathSplit = this.currentPath.split('\\');
+        const newPath = currentPathSplit.slice(0, currentPathSplit.length - 1).join('\\');
+        this.itemsRefresh(newPath);
+      } else {
+        this.selectEmulatorDialog = false;
+      }
     }
   },
   computed: {
     itemsTrunked: function() {
       return Explorer.trunk(this.items, this.scope.hover, this.scope.frame);
+    },
+    getEmulators: function() {
+      return ['snes', 'megadrive'];
     },
   },
   data: () => ({
@@ -108,7 +116,6 @@ export default {
     items: [],
     scope: { hover: 0, frame: 15 },
     selectEmulatorDialog: false,
-    getEmulators: Function,
   }),
 };
 </script>
