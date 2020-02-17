@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 import config from './config';
 import pkg from '../package.json';
 import BackExplorer from './class/BackExplorer';
+import Emulator from './class/Emulator';
 
 const app = express();
 const appServer = Server(app);
@@ -48,6 +49,12 @@ app.get('/folder', (req, res) => {
     res.send(JSON.stringify(items));
   });
 });
+
+app.get('/emulators', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  const emulators = Emulator.getEmulators();
+  res.send(JSON.stringify(emulators));
+})
 
 app.post('/folder', (req, res) => {
   console.log(req.body);
