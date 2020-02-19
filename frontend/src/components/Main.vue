@@ -15,11 +15,15 @@
     </div>
     <div class="text-center">
       <v-bottom-sheet v-model="selectEmulatorDialog" persistent>
-        <v-sheet class="text-center" height="300px">
-          <div class="py-3">Select Emulator</div>
-            <div v-for="(emulator, index) in getEmulators" :key="index">
-              {{ emulator }}
-            </div>
+        <v-sheet class="text-center" height="300">
+          <v-carousel hide-delimiters :show-arrows="false" v-model="selectedEmulatorIndex" height="300">
+            <v-carousel-item class="display-4"
+              v-for="(emulator,i) in emulators"
+              :key="i"
+            >
+              <div class="fill-height align-center justify-center d-flex">{{ emulator.name }}</div>
+            </v-carousel-item>
+          </v-carousel>
         </v-sheet>
       </v-bottom-sheet>
     </div>
@@ -41,7 +45,8 @@ export default {
     itemsTrunked: Array,
     scope: Object,
     selectEmulatorDialog: Boolean,
-    getEmulators: Array,
+    selectedEmulatorIndex: Number,
+    emulators: Array,
   },
 
   created () {

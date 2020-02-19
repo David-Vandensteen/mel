@@ -7,7 +7,8 @@
         :itemsTrunked="itemsTrunked"
         :scope="scope"
         :selectEmulatorDialog="selectEmulatorDialog"
-        :getEmulators="getEmulators"
+        :emulators="emulators"
+        :selectedEmulatorIndex="selectedEmulatorIndex"
       />
       <Footer/>
     </v-content>
@@ -19,6 +20,8 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Footer from './components/Footer';
 import Explorer from './class/Explorer';
+import Emulator from './class/Emulator';
+
 const path = path;
 const { log } = console;
 
@@ -38,6 +41,10 @@ export default {
         this.items = response;
         if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
       });
+    Emulator.emulators()
+      .then((emulators) => {
+        this.emulators = emulators;
+      })
       window.addEventListener('keydown', this.keydown);
   },
     beforeDestroy () {
@@ -69,6 +76,14 @@ export default {
           this.escape();
           break;
 
+        case 'ArrowLeft':
+          this.left();
+          break;
+
+        case 'ArrowRight':
+          this.right();
+          break;
+
         default:
           break;
       }
@@ -79,6 +94,12 @@ export default {
     },
     down: function() {
       this.scope.hover = (this.scope.hover + 1) % this.items.length;
+    },
+    left: function() {
+      this.selectedEmulatorIndex = (this.selectedEmulatorIndex + this.emulators.length - 1) % this.emulators.length;
+    },
+    right: function() {
+      this.selectedEmulatorIndex = (this.selectedEmulatorIndex + 1) % this.emulators.length;
     },
     enter: function() {
       log('enter');
@@ -107,15 +128,14 @@ export default {
     itemsTrunked: function() {
       return Explorer.trunk(this.items, this.scope.hover, this.scope.frame);
     },
-    getEmulators: function() {
-      return ['snes', 'megadrive'];
-    },
   },
   data: () => ({
     currentPath: 'C:\\temp\\test',
     items: [],
     scope: { hover: 0, frame: 15 },
     selectEmulatorDialog: false,
+    selectedEmulatorIndex: 0,
+    emulators: [],
   }),
 };
 </script>
