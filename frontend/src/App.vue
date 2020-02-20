@@ -21,9 +21,11 @@ import Main from './components/Main';
 import Footer from './components/Footer';
 import Explorer from './class/Explorer';
 import Emulator from './class/Emulator';
+import Gamepad from './class/gamepad'
 
 const path = path;
 const { log } = console;
+const gamepad = new Gamepad();
 
 export default {
   name: 'App',
@@ -35,6 +37,14 @@ export default {
   },
 
   created () {
+    gamepad.on('connect', e => {
+      log(`controller ${e.index} connected!`);
+    });
+
+    gamepad.on('press', 'button_1', () => {
+      log('button 1 was pressed!');
+    });
+
     this.explorer = new Explorer();
     this.explorer.get(this.currentPath)
       .then((response) => {
