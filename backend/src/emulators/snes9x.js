@@ -1,5 +1,6 @@
 export default {
   name: 'snes9x',
-  path: 'c:\\temp\\snes9x.exe',
+  process: 'snes9x.exe',
+  path: 'c:\\Windows\\notepad.exe',
   arg: ''
 }

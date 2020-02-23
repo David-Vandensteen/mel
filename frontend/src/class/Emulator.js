@@ -8,4 +8,11 @@ export default class Emulator {
         return response.data;
       });
   }
+
+  static run (emulator, file) {
+    return axios.post(`${config.backend.route}/run`, {
+      emulator,
+      file,
+    })
+  }
 }

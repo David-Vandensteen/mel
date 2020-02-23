@@ -56,6 +56,14 @@ app.get('/emulators', (req, res) => {
   res.send(JSON.stringify(emulators));
 })
 
+app.post('/run', (req, res) => {
+  Emulator.run(req.body.emulator, req.body.file)
+    .catch((err) => {
+      log(err);
+    });
+  res.sendStatus(200);
+})
+
 app.post('/folder', (req, res) => {
   console.log(req.body);
   backExplorer.setCurrentPath(req.body.folder);

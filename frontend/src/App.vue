@@ -24,7 +24,7 @@ import Emulator from './class/Emulator';
 import Gamepad from './class/gamepad'
 
 const path = path;
-const { log } = console;
+const { log, error } = console;
 const gamepad = new Gamepad();
 
 export default {
@@ -41,9 +41,12 @@ export default {
       log(`controller ${e.index} connected!`);
     });
 
-    gamepad.on('press', 'button_1', () => {
-      log('button 1 was pressed!');
-    });
+    gamepad.on('press', 'button_1', this.enter);
+    gamepad.on('press', 'start', this.enter);
+    gamepad.on('press', 'd_pad_up', this.up);
+    gamepad.on('press', 'd_pad_down', this.down);
+    gamepad.on('press', 'd_pad_left', this.left);
+    gamepad.on('press', 'd_pad_right', this.right);
 
     this.explorer = new Explorer();
     this.explorer.get(this.currentPath)
@@ -97,30 +100,31 @@ export default {
         default:
           break;
       }
-      (!this.items[this.scope.hover].directory) ? this.selectEmulatorDialog = true : this.selectEmulatorDialog = false;
     },
     up: function() {
       this.scope.hover = (this.scope.hover + this.items.length - 1) % this.items.length;
+      (!this.items[this.scope.hover].directory) ? this.selectEmulatorDialog = true : this.selectEmulatorDialog = false;
     },
     down: function() {
       this.scope.hover = (this.scope.hover + 1) % this.items.length;
+      (!this.items[this.scope.hover].directory) ? this.selectEmulatorDialog = true : this.selectEmulatorDialog = false;
     },
     left: function() {
-      this.selectedEmulatorIndex = (this.selectedEmulatorIndex + this.emulators.length - 1) % this.emulators.length;
+      // this.selectedEmulatorIndex = (this.selectedEmulatorIndex + this.emulators.length - 1) % this.emulators.length;
+      if (this.selectedEmulatorIndex > 0) this.selectedEmulatorIndex -=1;
     },
     right: function() {
-      this.selectedEmulatorIndex = (this.selectedEmulatorIndex + 1) % this.emulators.length;
+      if (this.selectedEmulatorIndex < this.emulators.length - 1) this.selectedEmulatorIndex +=1;
+      // this.selectedEmulatorIndex = (this.selectedEmulatorIndex + 1) % this.emulators.length;
     },
     enter: function() {
       log('enter');
-      if (this.items.length > 0 && !this.selectEmulatorDialog) {
-        if (this.items[this.scope.hover].directory) {
-          log('browse :', this.items[this.scope.hover].name);
-          this.itemsRefresh(this.items[this.scope.hover].path);
-        } else {
+      if (!this.items[this.scope.hover].directory) {
           log('launch :', this.items[this.scope.hover].name);
-          this.selectEmulatorDialog = true;
-        }
+          Emulator.run(this.emulators[this.selectedEmulatorIndex].name ,this.items[this.scope.hover].path)
+            .catch((err) => {
+              error(err);
+            })
       }
     },
     escape: function() {
