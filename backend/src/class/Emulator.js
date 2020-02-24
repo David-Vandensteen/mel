@@ -1,6 +1,7 @@
 import config from '../config';
 import { exec } from 'child-process-promise';
 
+const { log, error } = console;
 const emulators = config.emulators;
 
 export default class Emulator {
@@ -18,20 +19,23 @@ export default class Emulator {
 
   static kill(emulatorName) {
     const cmd = `taskkill /F /IM ${Emulator.getEmulatorByName(emulatorName).process}`;
-    return exec(cmd)
-      .catch();
+    exec(cmd)
+      .catch(() => 'undefined');
   }
 
   static killAll() {
-
+    const proms = [];
+    emulators.forEach((emulator) => {
+      proms.push(Emulator.kill(emulator.name))
+    });
+    return Promise.all(proms)
+      .catch(() => 'undefined');
   }
 
   static run(emulatorName, file) {
     const emulator = Emulator.getEmulatorByName(emulatorName);
     const cmd = `"${emulator.path}" ${emulator.arg || ''} "${file}"`;
     return Emulator.kill(emulator.name)
-      .finally(() => {
-        return exec(cmd)
-      })
+      .finally(() => exec(cmd));
   }
 }
