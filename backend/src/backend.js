@@ -54,18 +54,17 @@ app.get('/emulators', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   const emulators = Emulator.getEmulators();
   res.send(JSON.stringify(emulators));
-})
+});
 
 app.post('/run', (req, res) => {
   Emulator.run(req.body.emulator, req.body.file)
     .catch((err) => {
-      log(err);
+      res.sendStatus(500);
     });
   res.sendStatus(200);
-})
+});
 
 app.post('/folder', (req, res) => {
-  console.log(req.body);
   backExplorer.setCurrentPath(req.body.folder);
   backExplorer.getSorting().then((items) => {
     res.send(JSON.stringify(items));

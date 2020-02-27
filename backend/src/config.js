@@ -9,5 +9,5 @@ export default {
     snes9x,
     pcsx2,
     pcsx2Window,
-  ]
+  ],
 };

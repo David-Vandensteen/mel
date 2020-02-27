@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src --out-dir dist",
     "dev": "nodemon --watch src -e js --exec npm run lint",
-    "lint": "eslint src/*",
+    "lint": "eslint src",
     "serve": "nodemon --watch src -e js --exec babel-node src/backend.js",
     "start": "node dist/backend.js"
   },

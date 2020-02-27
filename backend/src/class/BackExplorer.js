@@ -1,4 +1,4 @@
-import { log } from 'console';
+// import { log } from 'console';
 import { promises as fs, lstatSync } from 'fs';
 import path from 'path';
 
@@ -42,7 +42,9 @@ export default class BackExplorer {
             const fullPath = path.join(this.currentPath, readdir);
             const stat = lstatSync(fullPath);
             if (stat.isFile()) response.push({ name: readdir, path: fullPath, directory: false });
-            if (stat.isDirectory()) response.push({ name: readdir, path: fullPath, directory: true });
+            if (stat.isDirectory()) {
+              response.push({ name: readdir, path: fullPath, directory: true });
+            }
           });
           resolve(response);
         });
