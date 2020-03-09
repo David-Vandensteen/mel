@@ -56,6 +56,15 @@ app.get('/emulators', (req, res) => {
   res.send(JSON.stringify(emulators));
 });
 
+app.get('/emulators/kill', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  const emulators = Emulator.getEmulators();
+  Emulator.killAll()
+    .finally(() => {
+      res.sendStatus(200);
+    });
+});
+
 app.post('/run', (req, res) => {
   Emulator.run(req.body.emulator, req.body.file)
     .catch((err) => {

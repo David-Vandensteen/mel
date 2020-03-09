@@ -15,4 +15,9 @@ export default class Emulator {
       file,
     })
   }
+
+  static killAll () {
+    return axios.get(`${config.backend.route}/emulators/kill`)
+      .catch(() => 'undifined');
+  }
 }
