@@ -175,6 +175,9 @@ export default {
             .catch((err) => {
               error(err);
             })
+      } else {
+        this.explore(this.items[this.scope.hover].path);
+        this.
       }
     },
 
