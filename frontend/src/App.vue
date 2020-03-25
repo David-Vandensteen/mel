@@ -41,6 +41,7 @@ export default {
 
   created () {
     this.gamePadAddListeners();
+    this.gamePadAddComboListers();
     this.explorer = new Explorer();
     this.explore(this.currentPath);
     Emulator.emulators()
@@ -66,26 +67,18 @@ export default {
         if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
       })
     },
-    gamePadAddListeners: function() {
-      gamepad.on('connect', e => {
-        log(`controller ${e.index} connected!`);
-      });
-      gamepad.on('press', 'button_1', this.forward);
+
+    gamePadAddComboListers: function() {
       gamepad.on('press', 'start', () => {
         combo.start = true;
         if (combo.select) this.stop();
+        log(combo);
       });
       gamepad.on('press', 'select', () => {
         combo.select = true;
-        if (combo.start) {
-          Emulator.killAll()
-            .finally(() => this.gamePadAddListeners());
-        }
+        if (combo.start) this.stop();
+        log(combo);
       });
-      gamepad.on('press', 'd_pad_up', this.up);
-      gamepad.on('press', 'd_pad_down', this.down);
-      gamepad.on('press', 'd_pad_left', this.left);
-      gamepad.on('press', 'd_pad_right', this.right);
       gamepad.on('release', 'start', () => {
         combo.start = false;
       });
@@ -94,12 +87,20 @@ export default {
       });
     },
 
+    gamePadAddListeners: function() {
+      gamepad.on('connect', e => {
+        log(`controller ${e.index} connected!`);
+      });
+      gamepad.on('press', 'button_1', this.forward);
+      gamepad.on('press', 'd_pad_up', this.up);
+      gamepad.on('press', 'd_pad_down', this.down);
+      gamepad.on('press', 'd_pad_left', this.left);
+      gamepad.on('press', 'd_pad_right', this.right);
+    },
+
     gamepadRemoveListeners: function() {
-      gamepad.off('press', 'button_1');
-      gamepad.off('press', 'd_pad_up');
-      gamepad.off('press', 'd_pad_down');
-      gamepad.off('press', 'd_pad_left');
-      gamepad.off('press', 'd_pad_right');
+      gamepad.off('press');
+      this.gamePadAddComboListers();
     },
 
     itemsRefresh: function(path) {
@@ -112,15 +113,6 @@ export default {
 
     keydown: function(event) {
       switch (event.key) {
-        /*
-        case 'ArrowUp':
-          this.up();
-          break;
-
-        case 'ArrowDown':
-          // this.down();
-          break;
-        */
         case 'Enter':
           this.forward();
           break;
@@ -136,16 +128,6 @@ export default {
         case 'q':
           this.stop();
           break;
-
-        /*
-        case 'ArrowLeft':
-          this.left();
-          break;
-
-        case 'ArrowRight':
-          this.right();
-          break;
-        */
 
         default:
           break;
