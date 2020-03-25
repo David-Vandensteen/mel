@@ -12,7 +12,8 @@ export default class Explorer {
     })
       .then((response) => {
         const pathSplit = path.split('\\');
-        const parentPath = pathSplit.slice(0, pathSplit.length - 1).join('\\');
+        let parentPath = pathSplit.slice(0, pathSplit.length - 1).join('\\');
+        if (parentPath[parentPath.length - 1] !== '\\') parentPath = `${parentPath}\\`;
         response.data.push({ directory: true, name: '..', path: parentPath });
         return response.data
       });

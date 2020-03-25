@@ -58,7 +58,6 @@ app.get('/emulators', (req, res) => {
 
 app.get('/emulators/kill', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  const emulators = Emulator.getEmulators();
   Emulator.killAll()
     .finally(() => {
       res.sendStatus(200);
@@ -67,7 +66,7 @@ app.get('/emulators/kill', (req, res) => {
 
 app.post('/run', (req, res) => {
   Emulator.run(req.body.emulator, req.body.file)
-    .catch((err) => {
+    .catch(() => {
       res.sendStatus(500);
     });
   res.sendStatus(200);

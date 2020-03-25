@@ -9,6 +9,7 @@
         :selectEmulatorDialog="selectEmulatorDialog"
         :emulators="emulators"
         :selectedEmulatorIndex="selectedEmulatorIndex"
+        :running="running"
       />
       <Footer/>
     </v-content>
@@ -21,7 +22,8 @@ import Main from './components/Main';
 import Footer from './components/Footer';
 import Explorer from './class/Explorer';
 import Emulator from './class/Emulator';
-import Gamepad from './class/gamepad'
+import Gamepad from './class/gamepad';
+import config from './config';
 
 const path = path;
 const { log, error } = console;
@@ -57,9 +59,11 @@ export default {
     explore: function(path) {
     this.explorer.get(path)
       .then((response) => {
+        log('explore', path);
         this.items = response;
-        this.scope = { hover: 0, frame: 15 };
-        // if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
+        this.scope = { hover: 0 , frame: 10 };
+        this.currentPath = path;
+        if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
       })
     },
     gamePadAddListeners: function() {
@@ -69,10 +73,7 @@ export default {
       gamepad.on('press', 'button_1', this.forward);
       gamepad.on('press', 'start', () => {
         combo.start = true;
-        if (combo.select) {
-          Emulator.killAll()
-            .finally(() => this.gamePadAddListeners());
-        }
+        if (combo.select) this.stop();
       });
       gamepad.on('press', 'select', () => {
         combo.select = true;
@@ -94,11 +95,11 @@ export default {
     },
 
     gamepadRemoveListeners: function() {
-      gamepad.off('button_1');
-      gamepad.off('d_pad_up');
-      gamepad.off('d_pad_down');
-      gamepad.off('d_pad_left');
-      gamepad.off('d_pad_right');
+      gamepad.off('press', 'button_1');
+      gamepad.off('press', 'd_pad_up');
+      gamepad.off('press', 'd_pad_down');
+      gamepad.off('press', 'd_pad_left');
+      gamepad.off('press', 'd_pad_right');
     },
 
     itemsRefresh: function(path) {
@@ -111,14 +112,15 @@ export default {
 
     keydown: function(event) {
       switch (event.key) {
+        /*
         case 'ArrowUp':
           this.up();
           break;
 
         case 'ArrowDown':
-          this.down();
+          // this.down();
           break;
-
+        */
         case 'Enter':
           this.forward();
           break;
@@ -127,6 +129,15 @@ export default {
           this.backward();
           break;
 
+        case 'Backspace':
+          this.backward();
+          break;
+
+        case 'q':
+          this.stop();
+          break;
+
+        /*
         case 'ArrowLeft':
           this.left();
           break;
@@ -134,6 +145,7 @@ export default {
         case 'ArrowRight':
           this.right();
           break;
+        */
 
         default:
           break;
@@ -159,28 +171,45 @@ export default {
     },
 
     forward: function() {
-      log('forward');
       if (!this.items[this.scope.hover].directory) {
-          log('launch :', this.items[this.scope.hover].name);
-          Emulator.run(this.emulators[this.selectedEmulatorIndex].name ,this.items[this.scope.hover].path)
-            .catch((err) => {
-              error(err);
-            })
+        this.start();
       } else {
         this.explore(this.items[this.scope.hover].path);
       }
     },
 
     backward: function() {
-      log('backward');
-      if (!this.selectEmulatorDialog) {
+      if (!this.selectEmulatorDialog && !this.running) {
         const currentPathSplit = this.currentPath.split('\\');
         const newPath = currentPathSplit.slice(0, currentPathSplit.length - 1).join('\\');
-        this.itemsRefresh(newPath);
+        this.explore(newPath);
       } else {
         this.selectEmulatorDialog = false;
       }
-    }
+      if (this.running) this.stop();
+    },
+
+    start: function() {
+      log('start');
+      log('emulator:', this.emulators[this.selectedEmulatorIndex].name)
+      log('file:', this.items[this.scope.hover].name);
+      Emulator.run(this.emulators[this.selectedEmulatorIndex].name ,this.items[this.scope.hover].path)
+        .catch((err) => {
+          error(err);
+        })
+        .then(() => {
+          this.gamepadRemoveListeners()
+          this.running = true;
+        });
+    },
+
+    stop: function() {
+      Emulator.killAll()
+        .finally(() => {
+          this.gamePadAddListeners()
+          this.running = false;
+        });
+    },
   },
 
   computed: {
@@ -190,12 +219,13 @@ export default {
   },
 
   data: () => ({
-    currentPath: 'C:\\temp\\test',
+    currentPath: config.browse,
     items: [],
-    scope: { hover: 0, frame: 15 },
+    scope: { hover: 0, frame: 10 },
     selectEmulatorDialog: false,
     selectedEmulatorIndex: 0,
     emulators: [],
+    running: false,
   }),
 };
 </script>
