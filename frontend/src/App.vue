@@ -39,17 +39,8 @@ export default {
 
   created () {
     this.gamePadAddListeners();
-    // this.gamepadRemoveListeners();
-
     this.explorer = new Explorer();
     this.explore(this.currentPath);
-    /*
-    this.explorer.get(this.currentPath)
-      .then((response) => {
-        this.items = response;
-        if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
-      });
-      */
     Emulator.emulators()
       .then((emulators) => {
         this.emulators = emulators;
@@ -59,6 +50,7 @@ export default {
 
   beforeDestroy () {
     window.removeEventListener('keydown', this.keydown);
+    this.gamepadRemoveListeners();
   },
 
   methods: {
@@ -66,7 +58,8 @@ export default {
     this.explorer.get(path)
       .then((response) => {
         this.items = response;
-        if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
+        this.scope = { hover: 0, frame: 15 };
+        // if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
       })
     },
     gamePadAddListeners: function() {
@@ -92,11 +85,9 @@ export default {
       gamepad.on('press', 'd_pad_down', this.down);
       gamepad.on('press', 'd_pad_left', this.left);
       gamepad.on('press', 'd_pad_right', this.right);
-
       gamepad.on('release', 'start', () => {
         combo.start = false;
       });
-
       gamepad.on('release', 'select', () => {
         combo.select = false;
       });
@@ -177,7 +168,6 @@ export default {
             })
       } else {
         this.explore(this.items[this.scope.hover].path);
-        this.
       }
     },
 
