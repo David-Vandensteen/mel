@@ -2,6 +2,7 @@ export default {
   name: 'fceux',
   exe: 'fceux.exe',
   process: 'fceux.exe',
-  path: 'c:\\temp\\fceux',
+  drive: 'C:',
+  path: 'C:\\temp\\fceux',
   arg: '-fullscreen',
 };

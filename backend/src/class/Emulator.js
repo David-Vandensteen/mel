@@ -35,7 +35,10 @@ export default class Emulator {
 
   static run(emulatorName, file) {
     const emulator = Emulator.getEmulatorByName(emulatorName);
-    const cmd = `cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''} "${file}"`
+    let cmd = `${emulator.drive} && cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''} "${file}"`
+    if (emulator.exe ==='demul.exe') {
+      cmd = `${emulator.drive} && cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''}"${file}"`
+    }
     console.log(cmd);
     return Emulator.kill(emulator.name)
       .finally(() => exec(cmd));

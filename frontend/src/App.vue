@@ -41,7 +41,7 @@ export default {
 
   created () {
     this.gamePadAddListeners();
-    this.gamePadAddComboListers();
+    this.gamePadAddComboListeners();
     this.explorer = new Explorer();
     this.explore(this.currentPath);
     Emulator.emulators()
@@ -68,10 +68,11 @@ export default {
       })
     },
 
-    gamePadAddComboListers: function() {
+    gamePadAddComboListeners: function() {
       gamepad.on('press', 'start', () => {
         combo.start = true;
         if (combo.select) this.stop();
+        if (!combo.select) this.start();
         log(combo);
       });
       gamepad.on('press', 'select', () => {
@@ -91,7 +92,7 @@ export default {
       gamepad.on('connect', e => {
         log(`controller ${e.index} connected!`);
       });
-      gamepad.on('press', 'button_1', this.forward);
+      gamepad.on('release', 'button_1', this.forward);
       gamepad.on('press', 'd_pad_up', this.up);
       gamepad.on('press', 'd_pad_down', this.down);
       gamepad.on('press', 'd_pad_left', this.left);
@@ -99,8 +100,14 @@ export default {
     },
 
     gamepadRemoveListeners: function() {
-      gamepad.off('press');
-      this.gamePadAddComboListers();
+      gamepad.off('release', 'button_1');
+      gamepad.off('press', 'd_pad_up');
+      gamepad.off('press', 'd_pad_down');
+      gamepad.off('press', 'd_pad_left');
+      gamepad.off('press', 'd_pad_right');
+      gamepad.off('press', 'start');
+      gamepad.off('press', 'select');
+      this.gamePadAddComboListeners();
     },
 
     itemsRefresh: function(path) {
