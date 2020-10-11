@@ -72,13 +72,10 @@ export default {
       gamepad.on('press', 'start', () => {
         combo.start = true;
         if (combo.select) this.stop();
-        if (!combo.select) this.start();
-        log(combo);
       });
       gamepad.on('press', 'select', () => {
         combo.select = true;
         if (combo.start) this.stop();
-        log(combo);
       });
       gamepad.on('release', 'start', () => {
         combo.start = false;
@@ -89,6 +86,8 @@ export default {
     },
 
     gamePadAddListeners: function() {
+      combo.start = false;
+      combo.select = false;
       gamepad.on('connect', e => {
         log(`controller ${e.index} connected!`);
       });
@@ -97,10 +96,14 @@ export default {
       gamepad.on('press', 'd_pad_down', this.down);
       gamepad.on('press', 'd_pad_left', this.left);
       gamepad.on('press', 'd_pad_right', this.right);
+      gamepad.on('release', 'start', () => {
+        this.start();
+      });
     },
 
     gamepadRemoveListeners: function() {
       gamepad.off('release', 'button_1');
+      gamepad.off('release', 'start');
       gamepad.off('press', 'd_pad_up');
       gamepad.off('press', 'd_pad_down');
       gamepad.off('press', 'd_pad_left');
