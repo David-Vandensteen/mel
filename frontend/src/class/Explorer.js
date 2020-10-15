@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from '../config';
 
 export default class Explorer {
-  get (path) {
+  get(path) {
     return axios.request({
       method: 'post',
       url: `${config.backend.route}/folder`,
@@ -13,13 +13,13 @@ export default class Explorer {
       .then((response) => {
         const pathSplit = path.split('\\');
         let parentPath = pathSplit.slice(0, pathSplit.length - 1).join('\\');
-        if (parentPath[parentPath.length - 1] !== '\\') parentPath = `${parentPath}\\`;
+        // if (parentPath[parentPath.length - 1] !== '\\') parentPath = `${parentPath}\\`;
         response.data.push({ directory: true, name: '..', path: parentPath });
         return response.data
       });
   }
 
-  static trunk (items, hover, frame) {
+  static trunk(items, hover, frame) {
     const begin = (hover - frame + items.length) % items.length;
     const itemsTrunked = [];
     if (items.length === 0) return itemsTrunked;

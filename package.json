@@ -1,0 +1,20 @@
+{
+  "name": "mel",
+  "version": "1.0.0",
+  "description": "Minimalist Emulators Launcher",
+  "scripts": {
+    "serve:backend": "npm run serve --prefix backend",
+    "serve:frontend": "npm run serve --prefix frontend",
+    "serve": "npx concurrently --raw \"npm run serve:backend\" \"npm run serve:frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/David-Vandensteen/mel.git"
+  },
+  "author": "David Vandensteen <dvandensteen@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/David-Vandensteen/mel/issues"
+  },
+  "homepage": "https://github.com/David-Vandensteen/mel#readme"
+}

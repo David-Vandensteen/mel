@@ -71,10 +71,12 @@ export default {
     gamePadAddComboListeners: function() {
       gamepad.on('press', 'start', () => {
         combo.start = true;
+        log(combo);
         if (combo.select) this.stop();
       });
       gamepad.on('press', 'select', () => {
         combo.select = true;
+        log(combo);
         if (combo.start) this.stop();
       });
       gamepad.on('release', 'start', () => {
