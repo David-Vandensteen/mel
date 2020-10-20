@@ -1,17 +1,29 @@
 from __future__ import print_function
-from inputs import get_gamepad
+from importlib import reload
 
+import os
 import requests
+import time
+import inputs
 
 def kill():
-  url = 'http://localhost:3000/emulators/kill'
-  x = requests.get(url)
+  url = 'http://localhost:' + os.environ['MEL_BACK_PORT'] + '/emulators/kill'
+  requests.get(url)
 
 def main():
   start = 0
   select = 0
   while 1:
-    events = get_gamepad()
+    try:
+     events = inputs.get_gamepad()
+    except:
+      print('Gamepad is not connected')
+      print('retry...')
+      time.sleep(10)
+      reload(inputs)
+      os.system('cls')
+      main()
+
     for event in events:
       '''print(event.ev_type, event.code, event.state)'''
       if event.ev_type == 'Key' and event.code == 'BTN_SELECT':

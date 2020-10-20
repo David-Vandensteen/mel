@@ -11,7 +11,7 @@ export default class Emulator {
   }
 
   static getEmulators() {
-    return emulators;
+    return emulators.filter((emulator) => emulator.enable)
   }
 
   static getEmulatorByName(name) {

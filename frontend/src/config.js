@@ -1,6 +1,6 @@
 export default {
-  backend: {
-    route: 'http://localhost:3000'
-  },
-  browse: 'd:\\rom'
+ backend: {
+   route: 'http://localhost:8082'
+ },
+ browse: 'c:\\retro\\rom'
 }

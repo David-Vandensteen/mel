@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "Minimalist Emulators Launcher",
   "scripts": {
+    "build:backend": "npm run build --prefix backend",
+    "build:frontend": "npm run dist --prefix frontend",
+    "build": "npm run build:backend && npm run build:frontend",
+    "start:backend": "npm run start --prefix backend",
+    "start:frontend": "npm run start --prefix frontend",
+    "start": "concurrently --raw \"npm run start:backend\" \"npm run padwatcher\" \"start http://localhost:8082\"",
     "serve:backend": "npm run serve --prefix backend",
     "serve:frontend": "npm run serve --prefix frontend",
-    "serve": "npx concurrently --raw \"npm run serve:backend\" \"npm run serve:frontend\""
+    "padwatcher": "python padwatcher/padwatcher.py",
+    "serve": "concurrently --raw \"npm run serve:backend\" \"npm run serve:frontend\" \"npm run padwatcher\""
   },
   "repository": {
     "type": "git",
@@ -16,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/David-Vandensteen/mel/issues"
   },
-  "homepage": "https://github.com/David-Vandensteen/mel#readme"
+  "homepage": "https://github.com/David-Vandensteen/mel#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
 }

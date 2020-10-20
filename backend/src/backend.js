@@ -35,13 +35,16 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '50Mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressLogger);
+app.use('/',express.static('static'));
 
 const backExplorer = new BackExplorer(config.folder);
 
+/*
 app.get('/', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(info);
 });
+*/
 
 app.get('/folder', (req, res) => {
   res.setHeader('Content-Type', 'application/json');

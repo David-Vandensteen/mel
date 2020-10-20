@@ -1,3 +1,6 @@
+# express static (front dist)
+backend/static
+
 # dist
 dist/
 
