@@ -23,7 +23,6 @@ import Footer from './components/Footer';
 import Explorer from './class/Explorer';
 import Emulator from './class/Emulator';
 import Gamepad from './class/gamepad';
-import config from './config';
 
 const path = path;
 const { log, error } = console;
@@ -40,6 +39,9 @@ export default {
   },
 
   created () {
+    log('debug');
+    log(process.env);
+    log('current url', window.location.origin);
     this.gamePadAddListeners();
     this.gamePadAddComboListeners();
     this.explorer = new Explorer();
@@ -213,7 +215,7 @@ export default {
   },
 
   data: () => ({
-    currentPath: config.browse,
+    currentPath: process.env.VUE_APP_ROM_BROWSE,
     items: [],
     scope: { hover: 0, frame: 10 },
     selectEmulatorDialog: false,

@@ -7,7 +7,7 @@ import time
 import inputs
 
 def kill():
-  url = 'http://localhost:' + os.environ['MEL_BACK_PORT'] + '/emulators/kill'
+  url = os.environ['MEL_ROUTE'] + '/emulators/kill'
   requests.get(url)
 
 def main():

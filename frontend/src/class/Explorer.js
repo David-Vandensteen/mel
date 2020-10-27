@@ -1,11 +1,11 @@
 import axios from 'axios';
-import config from '../config';
+import getRoute from './getRoute';
 
 export default class Explorer {
   get(path) {
     return axios.request({
       method: 'post',
-      url: `${config.backend.route}/folder`,
+      url: `${getRoute()}/folder`,
       data: {
         folder: path,
       },

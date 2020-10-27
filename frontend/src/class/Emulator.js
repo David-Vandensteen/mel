@@ -1,23 +1,23 @@
 import axios from 'axios';
-import config from '../config';
+import getRoute from './getRoute';
 
 export default class Emulator {
   static emulators () {
-    return axios.get(`${config.backend.route}/emulators`)
+    return axios.get(`${getRoute()}/emulators`)
       .then((response) => {
         return response.data;
-      });
+    });
   }
 
   static run (emulator, file) {
-    return axios.post(`${config.backend.route}/run`, {
+    return axios.post(`${getRoute()}/run`, {
       emulator,
       file,
     })
   }
 
   static killAll () {
-    return axios.get(`${config.backend.route}/emulators/kill`)
+    return axios.get(`${getRoute()}/emulators/kill`)
       .catch(() => 'undifined');
   }
 }

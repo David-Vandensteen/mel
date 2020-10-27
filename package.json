@@ -4,15 +4,15 @@
   "description": "Minimalist Emulators Launcher",
   "scripts": {
     "build:backend": "npm run build --prefix backend",
-    "build:frontend": "npm run dist --prefix frontend",
+    "build:frontend": "config.bat && npm run dist --prefix frontend",
     "build": "npm run build:backend && npm run build:frontend",
     "start:backend": "npm run start --prefix backend",
     "start:frontend": "npm run start --prefix frontend",
-    "start": "concurrently --raw \"npm run start:backend\" \"npm run padwatcher\" \"start http://localhost:8082\"",
+    "start": "config.bat && concurrently --raw \"npm run start:backend\" \"npm run padwatcher\" \"start %MEL_ROUTE%\"",
     "serve:backend": "npm run serve --prefix backend",
     "serve:frontend": "npm run serve --prefix frontend",
-    "padwatcher": "python padwatcher/padwatcher.py",
-    "serve": "concurrently --raw \"npm run serve:backend\" \"npm run serve:frontend\" \"npm run padwatcher\""
+    "padwatcher": "config.bat && python padwatcher/padwatcher.py",
+    "serve": "config.bat && concurrently --raw \"npm run serve:backend\" \"npm run serve:frontend\" \"npm run padwatcher\""
   },
   "repository": {
     "type": "git",
