@@ -1,3 +1,3 @@
 export default {
- browse: 'c:\\retro\\rom'
+ browse: 'c:\\rom'
 }

@@ -17,7 +17,7 @@ export default {
       exe: 'ePSXe.exe',
       process: 'ePSXe.exe',
       drive: 'C:',
-      path: 'C:\\retro\\emulator\\Playstation\\ePSXe205',
+      path: 'C:\\RomStation\\app\\emulators\\downloads\\ePSXe\\files\\ePSXe 2.0.2 (x86)',
       arg: '--fullscreen',
     },
     {
@@ -35,9 +35,10 @@ export default {
       exe: 'snes9x-x64.exe',
       process: 'snes9x-x64.exe',
       drive: 'C:',
-      path: 'C:\\retro\\emulator\\SuperNintendo\\snes9x',
+      path: 'C:\\RomStation\\app\\emulators\\downloads\\Snes9x\\files\\Snes9x 1.61 (x64)',
       arg: '-fullscreen',
     },
+    /*
     {
       name: 'fusion',
       enable: true,
@@ -47,5 +48,6 @@ export default {
       path: 'C:\\retro\\emulator\\Megadrive\\Fusion364',
       arg: '-fullscreen',
     },
+    */
   ],
 };
