@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "core-js": "^3.6.5",
+    "core-js": "^3.30.2",
     "vue": "^2.6.12",
     "vuetify": "^2.3.16"
   },
@@ -23,11 +23,11 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "esm": "^3.2.25",
-    "sass": "^1.28.0",
+    "sass": "^1.62.1",
     "sass-loader": "^8.0.0",
-    "vue-cli-plugin-vuetify": "^2.0.7",
-    "vue-template-compiler": "^2.6.12",
-    "vuetify-loader": "^1.6.0"
+    "vue-cli-plugin-vuetify": "^2.5.8",
+    "vue-template-compiler": "^2.7.14",
+    "vuetify-loader": "^1.9.2"
   },
   "eslintConfig": {
     "root": true,
