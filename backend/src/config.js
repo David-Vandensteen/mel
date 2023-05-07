@@ -5,10 +5,10 @@ export default {
     {
       name: 'pcsx2',
       enable: true,
-      exe: 'pcsx2.exe',
-      process: 'pcsx2.exe',
+      exe: 'pcsx2x64.exe',
+      process: 'pcsx2x64.exe',
       drive: 'C:',
-      path: 'C:\\retro\\emulator\\Playstation2\\PCSX2 1.6.0',
+      path: 'C:\\RomStation\\app\\emulators\\downloads\\PCSX2\\files\\PCSX2 v1.7.3257 SSE4 (x64)',
       arg: '--fullscreen',
     },
     {
@@ -22,11 +22,11 @@ export default {
     },
     {
       name: 'DEmul',
-      enable: false,
+      enable: true,
       exe: 'demul.exe',
       process: 'demul.exe',
-      drive: 'E:',
-      path: 'E:\\emulators\\DEmul\\files\\DEmul v0.7 180428 (rev. 4) (x86)',
+      drive: 'C:',
+      path: 'C:\\RomStation\\app\\emulators\\downloads\\DEmul\\files\\DEmul v0.7 180428 (rev. 4) (x86)',
       arg: '-run=dc -image=',
     },
     {
@@ -38,16 +38,14 @@ export default {
       path: 'C:\\RomStation\\app\\emulators\\downloads\\Snes9x\\files\\Snes9x 1.61 (x64)',
       arg: '-fullscreen',
     },
-    /*
     {
       name: 'fusion',
       enable: true,
       exe: 'Fusion.exe',
       process: 'Fusion.exe',
       drive: 'C:',
-      path: 'C:\\retro\\emulator\\Megadrive\\Fusion364',
+      path: 'C:\\RomStation\\app\\emulators\\downloads\\Kega Fusion\\files\\Kega Fusion v3.64 (x86)',
       arg: '-fullscreen',
     },
-    */
   ],
 };
