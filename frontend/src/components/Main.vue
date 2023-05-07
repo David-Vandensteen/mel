@@ -27,11 +27,8 @@
       <v-bottom-sheet v-model="selectEmulatorDialog" persistent>
         <v-sheet class="text-center" height="100">
           <v-carousel hide-delimiters :show-arrows="false" v-model="selectedEmulatorIndex" height="100">
-            <v-carousel-item class="display-2"
-              v-for="(emulator,i) in emulators"
-              :key="i"
-            >
-              <div class="fill-height align-center justify-center d-flex">{{ emulator.name }}</div>
+            <v-carousel-item class="display-2 blue--text" v-for="(emulator, index) in emulators" :key="index">
+              <div class="fill-height align-center justify-center d-flex black--text">{{ emulator.name }}</div>
             </v-carousel-item>
           </v-carousel>
         </v-sheet>
