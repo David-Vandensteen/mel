@@ -46,11 +46,8 @@ export default {
     this.gamePadAddComboListeners();
     this.explorer = new Explorer();
     this.explore(this.currentPath);
-    Emulator.emulators()
-      .then((emulators) => {
-        this.emulators = emulators;
-      })
-      window.addEventListener('keydown', this.keydown);
+    this.getEmulators();
+    window.addEventListener('keydown', this.keydown);
   },
 
   beforeDestroy () {
@@ -67,6 +64,14 @@ export default {
         this.scope = { hover: 0 , frame: 10 };
         this.currentPath = path;
         if (this.scope.frame > this.items.length) this.scope.frame = this.items.length;
+      })
+    },
+
+    getEmulators: function() {
+      Emulator.emulators()
+      .then((emulators) => {
+        log('emulators :', emulators);
+        this.emulators = emulators;
       })
     },
 
