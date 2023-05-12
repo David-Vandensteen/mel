@@ -2,13 +2,16 @@
   "name": "backend",
   "version": "0.0.1",
   "description": "",
-  "main": "backend.js",
+  "main": "src/backend.js",
+  "type": "module",
+  "imports": {
+    "#src/*": "./src/*.js"
+  },
   "scripts": {
-    "build": "babel src --out-dir dist",
     "dev": "nodemon --watch src -e js --exec npm run lint",
     "lint": "eslint src",
-    "serve": "nodemon --watch src -e js --exec babel-node src/backend.js | npx bunyan",
-    "start": "node dist/backend.js"
+    "serve": "nodemon --watch src -e js src/backend.js | npx bunyan",
+    "start": "node src/backend.js"
   },
   "repository": {
     "type": "git",
@@ -21,16 +24,11 @@
   },
   "homepage": "https://github.com/David-Vandensteen/kontrolor#readme",
   "devDependencies": {
-    "@babel/cli": "^7.21.5",
-    "@babel/core": "^7.21.8",
-    "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.21.5",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.27.5",
-    "esm": "^3.2.25",
-    "nodemon": "^1.19.1"
+    "nodemon": "^2.0.21"
   },
   "dependencies": {
     "body-parser": "^1.20.2",

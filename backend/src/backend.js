@@ -5,10 +5,10 @@ import expressBunyan from 'express-bunyan-logger';
 import cors from 'cors';
 import { Server } from 'http';
 import bodyParser from 'body-parser';
-import config from './config';
-import pkg from '../package.json';
-import BackExplorer from './class/BackExplorer';
-import Emulator from './class/Emulator';
+import config from '#src/config';
+import BackExplorer from '#src/class/BackExplorer';
+import Emulator from '#src/class/Emulator';
+import { pkg } from '#src/package';
 
 const app = express();
 const appServer = Server(app);
@@ -35,16 +35,14 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '50Mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressLogger);
-app.use('/',express.static('static'));
+app.use('/', express.static('static'));
 
 const backExplorer = new BackExplorer(config.folder);
 
-/*
 app.get('/', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(info);
 });
-*/
 
 app.get('/folder', (req, res) => {
   res.setHeader('Content-Type', 'application/json');

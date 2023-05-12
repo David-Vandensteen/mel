@@ -1,17 +1,11 @@
 import { exec } from 'child-process-promise';
-import config from '../config';
-
-// const { log, error } = console;
+import config from '#src/config';
 
 const emulators = config.emulators.slice();
 
 export default class Emulator {
-  constructor() {
-    return Emulator.getEmulators();
-  }
-
   static getEmulators() {
-    return emulators.filter((emulator) => emulator.enable)
+    return emulators.filter((emulator) => emulator.enable);
   }
 
   static getEmulatorByName(name) {
@@ -35,11 +29,11 @@ export default class Emulator {
 
   static run(emulatorName, file) {
     const emulator = Emulator.getEmulatorByName(emulatorName);
-    let cmd = `${emulator.drive} && cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''} "${file}"`
-    if (emulator.exe ==='demul.exe') {
-      cmd = `${emulator.drive} && cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''}"${file}"`
+    let cmd = `${emulator.drive} && cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''} "${file}"`;
+    if (emulator.exe === 'demul.exe') {
+      cmd = `${emulator.drive} && cd "${emulator.path}" && start ${emulator.exe} ${emulator.arg || ''}"${file}"`;
     }
-    console.log(cmd);
+
     return Emulator.kill(emulator.name)
       .finally(() => exec(cmd));
   }
