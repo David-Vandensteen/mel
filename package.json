@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Minimalist Emulators Launcher",
   "scripts": {
-    "build:backend": "npm run build --prefix backend",
     "build:frontend": "config.bat && npm run dist --prefix frontend",
-    "build": "npm run build:backend && npm run build:frontend",
     "start:backend": "npm run start --prefix backend",
     "start:frontend": "npm run start --prefix frontend",
     "start": "config.bat && concurrently --raw \"npm run start:backend\" \"npm run padwatcher\" \"start %MEL_ROUTE%\"",
