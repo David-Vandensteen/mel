@@ -74,6 +74,10 @@ app.post('/run', (req, res) => {
 });
 
 app.post('/folder', (req, res) => {
+  if (!req?.body?.folder) {
+    res.sendStatus('500');
+    return;
+  }
   backExplorer.setCurrentPath(req.body.folder);
   backExplorer.getSorting().then((items) => {
     res.send(JSON.stringify(items));
